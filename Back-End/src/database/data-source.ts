@@ -1,5 +1,6 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
+import User from "../app/entities/User"
 import { CreateUsersTable1674307725393 } from './migrations/1699217461224-CreateUsersTable'
 
 export const AppDataSource = new DataSource({
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
     database: "auth-express-angular",
     synchronize: true,
     logging: false,
-    entities: [],
+    entities: [User],
     migrations: [CreateUsersTable1674307725393],
     subscribers: [],
 })
