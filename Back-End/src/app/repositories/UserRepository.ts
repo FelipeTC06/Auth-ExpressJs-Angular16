@@ -8,4 +8,8 @@ const getUsers = (): Promise<IUser[]> => {
     return userRepository.find();
 }
 
-export default { getUsers };
+const createUser = (user: IUser):Promise<IUser> => {
+    return userRepository.save(user);
+}
+
+export default { getUsers, createUser };

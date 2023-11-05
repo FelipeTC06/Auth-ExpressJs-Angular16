@@ -2,13 +2,18 @@ import { Request, Response, Router } from 'express';
 import User from '../entities/User';
 import UserRepository from '../repositories/UserRepository';
 import IUser from '../interfaces/IUser';
-import { resolve } from 'path';
 
 const userRouter = Router();
 
 userRouter.get('/', async (_req: Request, res: Response): Promise<Response> => {
-    const users = await UserRepository.getUsers();
+    const users: IUser[] = await UserRepository.getUsers();
     return res.status(200).json(users);
 });
+
+userRouter.post('/', async (req: Request, res:Response): Promise<Response> => {
+    const user: IUser = req.body;
+    await UserRepository.createUser(user);
+    return res.status(200).send(user);
+})
 
 export default userRouter;
