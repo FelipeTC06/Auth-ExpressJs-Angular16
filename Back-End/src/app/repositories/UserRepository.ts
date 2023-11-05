@@ -8,8 +8,26 @@ const getUsers = (): Promise<IUser[]> => {
     return userRepository.find();
 }
 
-const createUser = (user: IUser):Promise<IUser> => {
+const createUser = (user: IUser): Promise<IUser> => {
     return userRepository.save(user);
 }
 
-export default { getUsers, createUser };
+const getUserById = async (userId: number): Promise<IUser> => {
+    try {
+        const user = await userRepository.findOne({
+            where: {
+                id: userId,
+            },
+        });
+
+        if (!user) {
+            throw new Error(`Usuário com ID ${userId} não encontrado.`);
+        }
+
+        return user;
+    } catch (error: any) {
+        throw new Error(`Erro ao buscar usuário: ${error.message}`);
+    }
+}
+
+export default { getUsers, createUser, getUserById };

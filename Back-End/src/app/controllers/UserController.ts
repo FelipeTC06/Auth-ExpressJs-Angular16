@@ -5,14 +5,21 @@ import IUser from '../interfaces/IUser';
 
 const userRouter = Router();
 
+userRouter.post('/', async (req: Request, res:Response): Promise<Response> => {
+    const user: IUser = req.body;
+    await UserRepository.createUser(user);
+    return res.status(200).send(user);
+});
+
 userRouter.get('/', async (_req: Request, res: Response): Promise<Response> => {
     const users: IUser[] = await UserRepository.getUsers();
     return res.status(200).json(users);
 });
 
-userRouter.post('/', async (req: Request, res:Response): Promise<Response> => {
-    const user: IUser = req.body;
-    await UserRepository.createUser(user);
+
+userRouter.get('/:id', async (req: Request, res:Response): Promise<Response> => {
+    const userId: number = parseInt(req.params.id);
+    const user: IUser = await UserRepository.getUserById(userId);
     return res.status(200).send(user);
 })
 
