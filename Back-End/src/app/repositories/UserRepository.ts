@@ -30,4 +30,47 @@ const getUserById = async (userId: number): Promise<IUser> => {
     }
 }
 
-export default { getUsers, createUser, getUserById };
+const updateUser = async (userId: number, newName: string): Promise<IUser> => {
+    try {
+        const user = await userRepository.findOne({
+            where: {
+                id: userId,
+            },
+        });
+
+        if (!user) {
+            throw new Error(`Usuário com ID ${userId} não encontrado.`);
+        }
+
+        user.name = newName;
+
+        await userRepository.save(user);
+
+        return user;
+    } catch (error: any) {
+        throw new Error(`Erro ao atualizar usuário: ${error.message}`);
+    }
+}
+
+const deleteUser = async (userId: number): Promise<IUser> => {
+    try{
+        const user = await userRepository.findOne({
+            where: {
+                id: userId,
+            }
+        })
+
+        if (!user) {
+            throw new Error(`Usuário com ID ${userId} não encontrado.`);
+        }
+
+        await userRepository.delete(user);
+
+        return user;
+
+    } catch (error: any) {
+        throw new Error(`Erro ao deletar usuário: ${error.message}`);
+    }
+}
+
+export default { getUsers, createUser, getUserById, updateUser, deleteUser };
