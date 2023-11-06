@@ -1,8 +1,7 @@
-import { config } from "process"
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import User from "../app/entities/User"
-import envVariables from "../config/confi"
+import envVariables from "../config/config"
 import { CreateUsersTable1674307725393 } from './migrations/1699217461224-CreateUsersTable'
 
 
@@ -15,7 +14,7 @@ export const AppDataSource = new DataSource({
     database: envVariables.database,
     synchronize: true,
     logging: false,
-    entities: [User],
-    migrations: [CreateUsersTable1674307725393],
+	entities: [`${__dirname}/../**/entities/*.{ts,js}`],
+	migrations: [`${__dirname}/migrations/*.{ts,js}`],
     subscribers: [],
 })
